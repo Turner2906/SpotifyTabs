@@ -54,6 +54,60 @@ public class SpotifyController : ControllerBase
       return Ok(responseContent);
     }
   }
+
+  [HttpGet("topartists")]
+  public async Task<IActionResult> GetTopArtists(string accessToken)
+  {
+    using (var client = new HttpClient())
+    {
+      client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+
+      var userResponse = await client.GetAsync("https://api.spotify.com/v1/me/top/artists?limit=10&time_range=medium_term");
+      var responseContent = await userResponse.Content.ReadAsStringAsync();
+
+      return Ok(responseContent);
+    }
+  }
+
+  [HttpGet("toptracks")]
+  public async Task<IActionResult> GetTopTracks(string accessToken)
+  {
+    using (var client = new HttpClient())
+    {
+      client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+
+      var userResponse = await client.GetAsync("https://api.spotify.com/v1/me/top/tracks?limit=10&time_range=medium_term");
+      var responseContent = await userResponse.Content.ReadAsStringAsync();
+
+      return Ok(responseContent);
+    }
+  }
+
+  [HttpGet("userall")]
+  public async Task<IActionResult> GetUserAll(string accessToken)
+  {
+    using (var client = new HttpClient())
+    {
+      client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+      var userInfo = client.GetAsync("https://api.spotify.com/v1/me");
+      var topArtists = client.GetAsync("https://api.spotify.com/v1/me/top/artists?limit=10&time_range=medium_term");
+      var topTracks = client.GetAsync("https://api.spotify.com/v1/me/top/tracks?limit=10&time_range=medium_term");
+
+      await Task.WhenAll(userInfo, topArtists, topTracks);
+
+      var userInfoContent = await userInfo.Result.Content.ReadAsStringAsync();
+      var topArtistsContent = await topArtists.Result.Content.ReadAsStringAsync();
+      var topTracksContent = await topTracks.Result.Content.ReadAsStringAsync();
+
+      var userAll = new
+      {
+        userInfo = userInfoContent,
+        topArtists = topArtistsContent,
+        topTracks = topTracksContent
+      };
+      return Ok(userAll);
+    }
+  }
   [HttpGet("test")]
   public IActionResult Test()
   {

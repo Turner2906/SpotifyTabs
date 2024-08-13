@@ -7,7 +7,7 @@ export const SignIn = () => {
     params.append("client_id", "4ee1d4f325ef4976811bbcdf1562b8da");
     params.append("response_type", "code");
     params.append("redirect_uri", "https://localhost:44461/api/spotify/callback");
-    params.append("scope", "user-read-private user-read-email");
+    params.append("scope", "user-read-private user-read-email user-top-read");
     window.location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;
   };
 

@@ -12,3 +12,81 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.profile-header img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-header h1 {
+  color: #333;
+}
+
+/* Top Artists Container */
+.top-artists-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #7785AC;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Heading */
+.top-artists-container h2 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 20px;
+}
+
+/* Top Artists List */
+.top-artists-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+/* Top Artist Item */
+.top-artist-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Artist Image */
+.artist-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.artist-image:hover {
+  transform: scale(1.1);
+}
+
+/* Artist Name */
+.artist-name {
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+}
+
+.artist-rank {
+  font-size: 16px;
+  color: #555;
+  font-weight: 900;
+}
