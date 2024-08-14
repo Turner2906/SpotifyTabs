@@ -2,6 +2,7 @@ import { Counter } from "./components/Counter";
 import { SignIn } from "./components/SignIn";
 import { Home } from "./components/Home";
 import { Profile} from "./components/Profile";
+import { CallBack } from "./components/CallBack";
 
 const AppRoutes = [
   {
@@ -13,14 +14,19 @@ const AppRoutes = [
     element: <Counter />
   },
   {
-    path: '/SignIn',
+    path: '/signin',
     element: <SignIn />
   }
   ,
   {
-    path: '/Profile',
+    path: '/profile',
     element: <Profile />
+  },
+  {
+    path: '/callback',
+    element: <CallBack />
   }
+
 ];
 
 export default AppRoutes;

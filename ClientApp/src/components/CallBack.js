@@ -1,30 +1,29 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const Callback = () => {
-  const history = useHistory();
+export const CallBack = () => {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const getAccessToken = async (code) => {
       try {
         const response = await axios.get(`/api/spotify/callback?code=${code}`);
-        const { accessToken } = response.data;
-        localStorage.setItem('accessToken', accessToken);
-        history.push('/profile');
+        localStorage.setItem('accessToken', response.data);
+        navigate('/profile');
       } catch (error) {
         console.error('Error fetching access token', error);
       }
     };
 
-    const query = new URLSearchParams(window.location.search);
-    const code = query.get('code');
+    const code = searchParams.get('code');
     if (code) {
       getAccessToken(code);
     }
-  }, [history]);
+  }, [navigate, searchParams]);
 
   return <div>Loading...</div>;
 };
 
-export default Callback;
+export default CallBack;

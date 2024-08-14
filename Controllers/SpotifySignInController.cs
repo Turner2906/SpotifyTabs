@@ -37,53 +37,11 @@ public class SpotifyController : ControllerBase
       var json = JObject.Parse(responseContent);
       var accessToken = json["access_token"].ToString();
 
-      return Redirect($"https://localhost:44461/profile?accessToken={accessToken}");
+      return Ok(accessToken);
     }
   }
 
-  [HttpGet("userinfo")]
-  public async Task<IActionResult> GetUserInfo(string accessToken)
-  {
-    using (var client = new HttpClient())
-    {
-      client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-
-      var userResponse = await client.GetAsync("https://api.spotify.com/v1/me");
-      var responseContent = await userResponse.Content.ReadAsStringAsync();
-
-      return Ok(responseContent);
-    }
-  }
-
-  [HttpGet("topartists")]
-  public async Task<IActionResult> GetTopArtists(string accessToken)
-  {
-    using (var client = new HttpClient())
-    {
-      client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-
-      var userResponse = await client.GetAsync("https://api.spotify.com/v1/me/top/artists?limit=10&time_range=medium_term");
-      var responseContent = await userResponse.Content.ReadAsStringAsync();
-
-      return Ok(responseContent);
-    }
-  }
-
-  [HttpGet("toptracks")]
-  public async Task<IActionResult> GetTopTracks(string accessToken)
-  {
-    using (var client = new HttpClient())
-    {
-      client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-
-      var userResponse = await client.GetAsync("https://api.spotify.com/v1/me/top/tracks?limit=10&time_range=medium_term");
-      var responseContent = await userResponse.Content.ReadAsStringAsync();
-
-      return Ok(responseContent);
-    }
-  }
-
-  [HttpGet("userall")]
+  [HttpGet("userdata")]
   public async Task<IActionResult> GetUserAll(string accessToken)
   {
     using (var client = new HttpClient())

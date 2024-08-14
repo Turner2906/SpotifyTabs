@@ -6,18 +6,18 @@ export const Profile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [userTopArtists, setUserTopArtists] = useState(null);
   const [userTopTracks, setUserTopTracks] = useState(null);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const accessToken = searchParams.get('accessToken');
+      const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         try {
-          const user = await axios.get(`https://localhost:44461/api/spotify/userall?accessToken=${accessToken}`);
+          const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}`);
           setUserInfo(JSON.parse(user.data.userInfo));
           setUserTopArtists(JSON.parse(user.data.topArtists));
           setUserTopTracks(JSON.parse(user.data.topTracks));
-          console.log(JSON.parse(user.data.topTracks));
+          console.log(localStorage.getItem('accessToken'));
         } catch (error) {
           console.error('Error fetching user information', error);
         }
