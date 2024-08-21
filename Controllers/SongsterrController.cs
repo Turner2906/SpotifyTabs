@@ -23,6 +23,7 @@ public class SongsterrController : ControllerBase
         {
             var html = await client.GetStringAsync($"https://www.songsterr.com/?pattern={query}");
             var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(html);
 
             var songLink = htmlDoc.DocumentNode.SelectSingleNode("//a[contains(@class, 'B0cew')]");
 

@@ -12,11 +12,9 @@ export const Profile = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem('accessToken');
-      const query = "Everlong"
       if (accessToken) {
         try {
           const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}`);
-          const song_test = await axios.get(`https://localhost:44461/api/songsterr/search?query=${query}`);
           setUserInfo(JSON.parse(user.data.userInfo));
           setUserTopArtists(JSON.parse(user.data.topArtists));
           setUserTopTracks(JSON.parse(user.data.topTracks));
@@ -31,6 +29,19 @@ export const Profile = () => {
 
     fetchUserInfo();
   }, [searchParams]);
+
+  const tabLink = async (song, artist) => {
+    const song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${song}`);
+    console.log("https://www.songsterr.com" + song_url.data.href);
+    console.log(artist);
+    if (song_url.data.href.length > 0) {
+      window.location.href = "https://www.songsterr.com" + song_url.data.href;
+    }
+    else {
+      console.log("No tabs found for your song");
+      // alert("No tabs for your song found");
+    }
+  };
 
   return (
     <div>
@@ -58,7 +69,7 @@ export const Profile = () => {
               <ul className="top-artists-list">
                 {userTopTracks.items.map((track, index) => (
                   <li key={track.id} className="top-artist-item">
-                    <img src={track.album.images[0].url} alt={track.name} className="album-image" />
+                    <img src={track.album.images[0].url} alt={track.name} className="album-image" onClick={() => tabLink(track.name, track.artists[0].name)}/>
                     <span className="artist-rank">{index + 1}</span>
                     <span className="artist-name">{track.name}</span>
                     <span className="song-name">{track.artists[0].name}</span>
