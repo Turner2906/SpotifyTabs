@@ -10,10 +10,6 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
-  },
-  {
     path: '/signin',
     element: <SignIn />
   }
