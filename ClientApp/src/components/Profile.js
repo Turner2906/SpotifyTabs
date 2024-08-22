@@ -14,7 +14,7 @@ export const Profile = () => {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         try {
-          const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}`);
+          const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}&timeRange=medium_term`);
           setUserInfo(JSON.parse(user.data.userInfo));
           setUserTopArtists(JSON.parse(user.data.topArtists));
           setUserTopTracks(JSON.parse(user.data.topTracks));
@@ -48,8 +48,13 @@ export const Profile = () => {
       {userInfo ? (
         <div>
           <div className="profile-header">
-            <img src={userInfo.images[0].url} alt="Profile" />
+            <img src={userInfo.images[1].url} alt="Profile" />
             <h1 style={{ fontWeight: "bold" }}>{userInfo.display_name}</h1>
+            <select class="time-range">
+              <option value="short_term">Short Term</option>
+              <option value="medium_term">Medium Term</option>
+              <option value="long_term">Long Term</option>
+            </select>
           </div>
           <div className="spotify-list-wrapper">
             <div className="top-artists-container">
@@ -63,6 +68,7 @@ export const Profile = () => {
                   </li>
                 ))}
               </ul>
+              <span className="see-more">See more</span>
             </div>
             <div className="top-artists-container">
               <h2>Your Top Tracks</h2>
@@ -76,6 +82,7 @@ export const Profile = () => {
                   </li>
                 ))}
               </ul>
+              <span className="see-more">See more</span>
             </div>
           </div>
         </div>
