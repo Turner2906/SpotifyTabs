@@ -6,15 +6,23 @@ export const Profile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [userTopArtists, setUserTopArtists] = useState(null);
   const [userTopTracks, setUserTopTracks] = useState(null);
+  const [timeRange, setTimeRange] = useState('medium_term');
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  // weird edge case where on refresh of a non-default time range, the page info is loaded in twice
+  // still works tho lol
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem('accessToken');
+      const searchTime = searchParams.get('timeRange');
+      if (searchTime) {
+        setTimeRange(searchTime);
+      }
       if (accessToken) {
         try {
-          const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}&timeRange=medium_term`);
+          const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}&timeRange=${timeRange}`);
           setUserInfo(JSON.parse(user.data.userInfo));
           setUserTopArtists(JSON.parse(user.data.topArtists));
           setUserTopTracks(JSON.parse(user.data.topTracks));
@@ -28,7 +36,7 @@ export const Profile = () => {
     };
 
     fetchUserInfo();
-  }, [searchParams]);
+  }, [searchParams, timeRange]);
 
   const tabLink = async (song, artist) => {
     const song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${song}`);
@@ -43,6 +51,12 @@ export const Profile = () => {
     }
   };
 
+  const timeRangeChange = (event) => {
+    const current_time = event.target.value;
+    setTimeRange(current_time);
+    navigate(`/profile?timeRange=${current_time}`);
+  };
+
   return (
     <div>
       {userInfo ? (
@@ -50,7 +64,7 @@ export const Profile = () => {
           <div className="profile-header">
             <img src={userInfo.images[1].url} alt="Profile" />
             <h1 style={{ fontWeight: "bold" }}>{userInfo.display_name}</h1>
-            <select class="time-range">
+            <select className="time-range" value={timeRange} onChange={timeRangeChange}>
               <option value="short_term">Short Term</option>
               <option value="medium_term">Medium Term</option>
               <option value="long_term">Long Term</option>

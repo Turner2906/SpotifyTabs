@@ -42,8 +42,9 @@ public class SpotifyController : ControllerBase
   }
 
   [HttpGet("userdata")]
-  public async Task<IActionResult> GetUserAll(string accessToken, string timeRange = "medium_term")
+  public async Task<IActionResult> GetUserAll(string accessToken, string? timeRange = "medium_term")
   {
+
     using (var client = new HttpClient())
     {
       client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
@@ -65,10 +66,5 @@ public class SpotifyController : ControllerBase
       };
       return Ok(userAll);
     }
-  }
-  [HttpGet("test")]
-  public IActionResult Test()
-  {
-    return Content("<html><body><h1>Dummy Redirect Endpoint</h1><p>This is a dummy redirect message.</p></body></html>", "text/html");
   }
 }

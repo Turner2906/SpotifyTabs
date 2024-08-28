@@ -11,6 +11,7 @@ export const CallBack = () => {
       try {
         const response = await axios.get(`/api/spotify/callback?code=${code}`);
         localStorage.setItem('accessToken', response.data);
+        // localStorage.setItem('timeRange', 'medium_term');
         navigate('/profile');
       } catch (error) {
         console.error('Error fetching access token', error);
