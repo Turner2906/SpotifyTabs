@@ -45,6 +45,7 @@ code {
 
 /* Top Artists Container */
 .top-artists-container {
+  display: grid;
   max-width: 650px;
   margin: 0 auto;
   padding: 20px;
@@ -131,6 +132,7 @@ code {
 
 .see-more {
   display: flex;
+  margin-top: auto;
   justify-content: center;
   color: #c3f73a;
   font-weight: bold;
