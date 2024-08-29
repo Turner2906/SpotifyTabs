@@ -6,20 +6,15 @@ export const Profile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [userTopArtists, setUserTopArtists] = useState(null);
   const [userTopTracks, setUserTopTracks] = useState(null);
-  const [timeRange, setTimeRange] = useState('medium_term');
   const [searchParams, setSearchParams] = useSearchParams();
+  const [timeRange, setTimeRange] = useState(() => {
+    return searchParams.get('timeRange') || 'medium_term';
+  });
   const navigate = useNavigate();
-
-  // weird edge case where on refresh of a non-default time range, the page info is loaded in twice
-  // still works tho lol
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem('accessToken');
-      const searchTime = searchParams.get('timeRange');
-      if (searchTime) {
-        setTimeRange(searchTime);
-      }
       if (accessToken) {
         try {
           const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}&timeRange=${timeRange}`);
@@ -41,7 +36,7 @@ export const Profile = () => {
   const tabLink = async (song, artist) => {
     const song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${song}`);
     console.log("https://www.songsterr.com" + song_url.data.href);
-    console.log(artist);
+    console.log(song);
     if (song_url.data.href.length > 0) {
       window.location.href = "https://www.songsterr.com" + song_url.data.href;
     }
