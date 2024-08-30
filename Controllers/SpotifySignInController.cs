@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 [Route("api/spotify")]
 [ApiController]
@@ -41,16 +42,16 @@ public class SpotifyController : ControllerBase
     }
   }
 
-  [HttpGet("userdata")]
-  public async Task<IActionResult> GetUserAll(string accessToken, string? timeRange = "medium_term")
+  [HttpGet("usertop")]
+  public async Task<IActionResult> GetUserAll(string accessToken, string? timeRange = "medium_term", string? limit = "10")
   {
 
     using (var client = new HttpClient())
     {
       client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
       var userInfo = client.GetAsync("https://api.spotify.com/v1/me");
-      var topArtists = client.GetAsync($"https://api.spotify.com/v1/me/top/artists?limit=10&time_range={timeRange}");
-      var topTracks = client.GetAsync($"https://api.spotify.com/v1/me/top/tracks?limit=10&time_range={timeRange}");
+      var topArtists = client.GetAsync($"https://api.spotify.com/v1/me/top/artists?limit={limit}&time_range={timeRange}");
+      var topTracks = client.GetAsync($"https://api.spotify.com/v1/me/top/tracks?limit={limit}&time_range={timeRange}");
 
       await Task.WhenAll(userInfo, topArtists, topTracks);
 

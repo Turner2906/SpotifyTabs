@@ -17,7 +17,7 @@ export const Profile = () => {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         try {
-          const user = await axios.get(`https://localhost:44461/api/spotify/userdata?accessToken=${accessToken}&timeRange=${timeRange}`);
+          const user = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}`);
           setUserInfo(JSON.parse(user.data.userInfo));
           setUserTopArtists(JSON.parse(user.data.topArtists));
           setUserTopTracks(JSON.parse(user.data.topTracks));
@@ -26,6 +26,7 @@ export const Profile = () => {
         }
       }
       else {
+        alert("Sign in to view your profile");
         navigate('/signin');
       }
     };
@@ -41,8 +42,7 @@ export const Profile = () => {
       window.location.href = "https://www.songsterr.com" + song_url.data.href;
     }
     else {
-      console.log("No tabs found for your song");
-      // alert("No tabs for your song found");
+      alert("No tabs for your song found");
     }
   };
 
@@ -50,6 +50,10 @@ export const Profile = () => {
     const current_time = event.target.value;
     setTimeRange(current_time);
     navigate(`/profile?timeRange=${current_time}`);
+  };
+
+  const fullSongs = () => {
+    navigate(`/profile/songs?timeRange=${timeRange}`);
   };
 
   return (
@@ -77,7 +81,7 @@ export const Profile = () => {
                   </li>
                 ))}
               </ul>
-              <span className="see-more">See more</span>
+              <span className="see-more" onClick={fullSongs}>See more</span>
             </div>
             <div className="top-artists-container">
               <h2>Your Top Tracks</h2>
@@ -91,7 +95,7 @@ export const Profile = () => {
                   </li>
                 ))}
               </ul>
-              <span className="see-more">See more</span>
+              <span className="see-more" onClick={fullSongs}>See more</span>
             </div>
           </div>
         </div>
