@@ -80,7 +80,7 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100px;
+  width: calc(20% - 10px);
   margin-bottom: 20px;
   text-align: center;
 }
@@ -134,7 +134,7 @@ code {
 .see-more {
   position: absolute;
   bottom: 10px;
-    /* Adjust this value based on desired spacing */
+  /* Adjust this value based on desired spacing */
   left: 50%;
   transform: translateX(-50%);
   padding: 5px 10px;
@@ -146,15 +146,43 @@ code {
   text-align: center;
 }
 
+.top-list-container {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #7785AC;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.top-list-container h2{
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 20px;
+}
+
 .top-songs-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  padding-bottom: 20px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .top-song-item {
   display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
+  flex-direction: column;
+  align-items: center;
+  width: calc(20% - 20px);;
+  margin-bottom: 20px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .pagination-buttons {

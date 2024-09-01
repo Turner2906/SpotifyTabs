@@ -4,7 +4,6 @@ import axios from 'axios';
 
 export const UserSongs = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const [userTopArtists, setUserTopArtists] = useState(null);
   const [userTopTracks, setUserTopTracks] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [timeRange, setTimeRange] = useState(() => {
@@ -61,29 +60,57 @@ export const UserSongs = () => {
     }
   };
 
+  const tabLink = async (song, artist) => {
+    const song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${song}`);
+    console.log("https://www.songsterr.com" + song_url.data.href);
+    console.log(song);
+    if (song_url.data.href.length > 0) {
+      window.location.href = "https://www.songsterr.com" + song_url.data.href;
+    }
+    else {
+      alert("No tabs for your song found");
+    }
+  };
+
+  const timeRangeChange = (event) => {
+    const current_time = event.target.value;
+    setTimeRange(current_time);
+    navigate(`/profile/songs?timeRange=${current_time}`);
+  };
+
   return (
     <div>
       {currentSongs ? (
-      <div>
-        <ul className="top-songs-list">
-          {currentSongs.map((song, index) => (
-            <li key={song.id} className="top-song-item">
-              <span className="song-rank">{startIndex + index + 1}</span>
-              <span className="song-name">{song.name}</span>
-              <span className="song-artist">{song.artists[0].name}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="pagination-buttons">
-          <button onClick={handlePrevious} disabled={currentPage === 1}>
-            Previous
-          </button>
-          <button onClick={handleNext} disabled={currentPage === totalPages}>
-            Next
-          </button>
+        <div>
+          <div className="profile-header">
+            <select className="time-range" value={timeRange} onChange={timeRangeChange}>
+              <option value="short_term">Short Term</option>
+              <option value="medium_term">Medium Term</option>
+              <option value="long_term">Long Term</option>
+            </select>
+          </div>
+          <div className="top-list-container">
+            <h2>Your Top Artists</h2>
+            <ul className="top-songs-list">
+              {currentSongs.map((song, index) => (
+                <li key={song.id} className="top-song-item">
+                  <img src={song.album.images[0].url} alt={song.name} className="album-image" onClick={() => tabLink(song.name, song.artists[0].name)} />
+                  <span className="artist-rank">{startIndex + index + 1}</span>
+                  <span className="artist-name">{song.name}</span>
+                  <span className="song-name">{song.artists[0].name}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="pagination-buttons">
+              <button onClick={handlePrevious} disabled={currentPage === 1}>
+                Previous
+              </button>
+              <button onClick={handleNext} disabled={currentPage === totalPages}>
+                Next
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
       ) : (
         <div>Loading...</div>
       )}
