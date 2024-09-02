@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { tabLink } from './utils.js';
 
 export const UserSongs = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -13,7 +14,7 @@ export const UserSongs = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const songsPerPage = 10;
-  const totalPages = 5;
+  const totalPages = 10;
 
   const startIndex = (currentPage - 1) * songsPerPage;
   const [currentSongs, setCurrentSongs] = useState(null);
@@ -24,9 +25,15 @@ export const UserSongs = () => {
       if (accessToken) {
         try {
           const user = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50`);
-          const topSongs = JSON.parse(user.data.topTracks);
-          setUserTopTracks(topSongs);
-          setCurrentSongs(topSongs.items.slice(0, 10));
+          const user_half = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50&offset=50`);
+          const topHalfSongs = JSON.parse(user.data.topTracks).items;
+          const bottomHalfSongs = JSON.parse(user_half.data.topTracks).items;
+          if (topHalfSongs.error) {
+            alert("You must be signed in to view your profile");
+            navigate('/signin');
+          }
+          setUserTopTracks(topHalfSongs.concat(bottomHalfSongs));
+          setCurrentSongs(topHalfSongs.slice(0, 10));
         } catch (error) {
           console.error('Error fetching user information', error);
         }
@@ -46,7 +53,7 @@ export const UserSongs = () => {
       setCurrentPage(newPage);
       const newStartIndex = (newPage - 1) * songsPerPage;
       const newEndIndex = newStartIndex + songsPerPage;
-      setCurrentSongs(userTopTracks.items.slice(newStartIndex, newEndIndex));
+      setCurrentSongs(userTopTracks.slice(newStartIndex, newEndIndex));
     }
   };
 
@@ -56,26 +63,16 @@ export const UserSongs = () => {
       setCurrentPage(newPage);
       const newStartIndex = (newPage - 1) * songsPerPage;
       const newEndIndex = newStartIndex + songsPerPage;
-      setCurrentSongs(userTopTracks.items.slice(newStartIndex, newEndIndex));
-    }
-  };
-
-  const tabLink = async (song, artist) => {
-    const song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${song}`);
-    console.log("https://www.songsterr.com" + song_url.data.href);
-    console.log(song);
-    if (song_url.data.href.length > 0) {
-      window.location.href = "https://www.songsterr.com" + song_url.data.href;
-    }
-    else {
-      alert("No tabs for your song found");
+      setCurrentSongs(userTopTracks.slice(newStartIndex, newEndIndex));
     }
   };
 
   const timeRangeChange = (event) => {
     const current_time = event.target.value;
+    setCurrentPage(1);
+    setCurrentSongs(userTopTracks.slice(0, 10));
     setTimeRange(current_time);
-    navigate(`/profile/songs?timeRange=${current_time}`);
+    window.location.href = `/profile/songs?timeRange=${current_time}`;
   };
 
   return (
@@ -90,7 +87,7 @@ export const UserSongs = () => {
             </select>
           </div>
           <div className="top-list-container">
-            <h2>Your Top Artists</h2>
+            <h2>Your Top Songs</h2>
             <ul className="top-songs-list">
               {currentSongs.map((song, index) => (
                 <li key={song.id} className="top-song-item">

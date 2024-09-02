@@ -43,15 +43,15 @@ public class SpotifyController : ControllerBase
   }
 
   [HttpGet("usertop")]
-  public async Task<IActionResult> GetUserAll(string accessToken, string? timeRange = "medium_term", string? limit = "10")
+  public async Task<IActionResult> GetUserAll(string accessToken, string? timeRange = "medium_term", string? limit = "10", string? offset = "0")
   {
 
     using (var client = new HttpClient())
     {
       client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
       var userInfo = client.GetAsync("https://api.spotify.com/v1/me");
-      var topArtists = client.GetAsync($"https://api.spotify.com/v1/me/top/artists?limit={limit}&time_range={timeRange}");
-      var topTracks = client.GetAsync($"https://api.spotify.com/v1/me/top/tracks?limit={limit}&time_range={timeRange}");
+      var topArtists = client.GetAsync($"https://api.spotify.com/v1/me/top/artists?limit={limit}&time_range={timeRange}&offset={offset}");
+      var topTracks = client.GetAsync($"https://api.spotify.com/v1/me/top/tracks?limit={limit}&time_range={timeRange}&offset={offset}");
 
       await Task.WhenAll(userInfo, topArtists, topTracks);
 
@@ -65,6 +65,14 @@ public class SpotifyController : ControllerBase
         topArtists = topArtistsContent,
         topTracks = topTracksContent
       };
+
+      if (JObject.Parse(userInfoContent).ToString().Contains("error") ||
+        JObject.Parse(topArtistsContent).ToString().Contains("error") ||
+        JObject.Parse(topTracksContent).ToString().Contains("error"))
+      {
+        return BadRequest("One or more requests returned an error.");
+      }
+
       return Ok(userAll);
     }
   }

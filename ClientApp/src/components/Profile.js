@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { tabLink } from './utils.js';
 
 export const Profile = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -18,9 +19,14 @@ export const Profile = () => {
       if (accessToken) {
         try {
           const user = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}`);
+          const check = JSON.parse(user.data.userInfo);
+          if (check.error) {
+            alert("You must be signed in to view your profile");
+            navigate('/signin');
+          }
           setUserInfo(JSON.parse(user.data.userInfo));
-          setUserTopArtists(JSON.parse(user.data.topArtists));
-          setUserTopTracks(JSON.parse(user.data.topTracks));
+          setUserTopArtists(JSON.parse(user.data.topArtists).items);
+          setUserTopTracks(JSON.parse(user.data.topTracks).items);
         } catch (error) {
           console.error('Error fetching user information', error);
         }
@@ -34,17 +40,6 @@ export const Profile = () => {
     fetchUserInfo();
   }, [searchParams, timeRange]);
 
-  const tabLink = async (song, artist) => {
-    const song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${song}`);
-    console.log("https://www.songsterr.com" + song_url.data.href);
-    console.log(song);
-    if (song_url.data.href.length > 0) {
-      window.location.href = "https://www.songsterr.com" + song_url.data.href;
-    }
-    else {
-      alert("No tabs for your song found");
-    }
-  };
 
   const timeRangeChange = (event) => {
     const current_time = event.target.value;
@@ -73,7 +68,7 @@ export const Profile = () => {
             <div className="top-artists-container">
               <h2>Your Top Artists</h2>
               <ul className="top-artists-list">
-                {userTopArtists.items.map((artist, index) => (
+                {userTopArtists.map((artist, index) => (
                   <li key={artist.id} className="top-artist-item">
                     <img src={artist.images[0].url} alt={artist.name} className="artist-image" />
                     <span className="artist-rank">{index + 1}</span>
@@ -86,7 +81,7 @@ export const Profile = () => {
             <div className="top-artists-container">
               <h2>Your Top Tracks</h2>
               <ul className="top-artists-list">
-                {userTopTracks.items.map((track, index) => (
+                {userTopTracks.map((track, index) => (
                   <li key={track.id} className="top-artist-item">
                     <img src={track.album.images[0].url} alt={track.name} className="album-image" onClick={() => tabLink(track.name, track.artists[0].name)}/>
                     <span className="artist-rank">{index + 1}</span>
