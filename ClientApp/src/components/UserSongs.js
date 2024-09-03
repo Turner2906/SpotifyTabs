@@ -93,8 +93,8 @@ export const UserSongs = () => {
                 <li key={song.id} className="top-song-item">
                   <img src={song.album.images[0].url} alt={song.name} className="album-image" onClick={() => tabLink(song.name, song.artists[0].name)} />
                   <span className="artist-rank">{startIndex + index + 1}</span>
-                  <span className="artist-name">{song.name}</span>
-                  <span className="song-name">{song.artists[0].name}</span>
+                  <span className="song-name">{song.name}</span>
+                  <span className="artist-name">{song.artists[0].name}</span>
                 </li>
               ))}
             </ul>

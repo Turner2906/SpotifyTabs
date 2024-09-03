@@ -113,13 +113,13 @@ code {
 }
 
 /* Artist Name */
-.artist-name {
+.song-name {
   font-size: 16px;
   color: black;
   font-weight: bold;
 }
 
-.song-name {
+.artist-name {
   font-size: 14px;
   color: #333;
   font-weight: 550;
