@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 [Route("api/songsterr")]
 [ApiController]
@@ -45,22 +46,26 @@ public class SongsterrController : ControllerBase
     [HttpGet("backup_search")]
     public async Task<IActionResult> Backup_Search(string query)
     {
-        using (var driver = new ChromeDriver())
+        var options = new ChromeOptions();
+        options.AddArgument("--headless");
+
+        using (var driver = new ChromeDriver(options))
         {
             // Navigate to the Songsterr website
             driver.Navigate().GoToUrl("https://www.songsterr.com/");
-
             // Find the search input element
-            var searchInput = driver.FindElement(By.Name("pattern"));
+            var searchInput = driver.FindElement(By.CssSelector(".Cvu1qm"));
 
             // Enter the query
             searchInput.SendKeys(query);
 
-            // Simulate pressing Enter
-            searchInput.SendKeys(Keys.Enter);
-
-            // Wait for the page to load (you may need to adjust the timeout)
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            // Wait until the page changes from its default state
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+            wait.Until(drv =>
+            {
+                var defaultCheck = drv.FindElement(By.CssSelector(".B0cew"));
+                return defaultCheck.GetAttribute("href") != "https://www.songsterr.com/a/wsa/metallica-master-of-puppets-tab-s455118";
+            });
 
             // Find the first search result
             var songLink = driver.FindElement(By.CssSelector(".B0cew"));
@@ -70,7 +75,7 @@ public class SongsterrController : ControllerBase
                 var hrefValue = songLink.GetAttribute("href");
                 var innerText = songLink.Text;
 
-                return Ok(new { href = hrefValue, text = innerText });
+                return Ok(new { href = hrefValue, text = innerText});
             }
             else
             {
