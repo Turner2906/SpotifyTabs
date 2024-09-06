@@ -43,6 +43,29 @@ public class SongsterrController : ControllerBase
             }
         }
     }
+
+    [HttpGet("song_id")]
+    public async Task<IActionResult> Song_id(string query)
+    {
+
+        using (var client = new HttpClient())
+        {
+            var encodedQuery = Uri.EscapeDataString(query);
+            var response = await client.GetStringAsync($"https://www.songsterr.com/api/songs?pattern={encodedQuery}&size=50&from=0");
+            return Ok(response);
+        }
+    }
+
+    [HttpGet("download/{song_id:int}")]
+    public async Task<IActionResult> Download(int song_id)
+    {
+        using (var client = new HttpClient())
+        {
+            var response = await client.GetStringAsync($"https://www.songsterr.com/api/meta/{song_id}/revisions");
+            return Ok(response);
+        }
+    }
+
     [HttpGet("backup_search")]
     public async Task<IActionResult> Backup_Search(string query)
     {
