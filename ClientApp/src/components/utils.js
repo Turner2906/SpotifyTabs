@@ -19,8 +19,12 @@ export const tabLink = async (song, artist) => {
 export const downloadLink = async (song, artist) => {
   const id_url = await axios.get(`https://localhost:44461/api/songsterr/song_id?query=${artist} ${song}`);
   const song_id = id_url.data[0].songId;
-  console.log(song_id);
   const download_url = await axios.get(`https://localhost:44461/api/songsterr/download/${song_id}`);
   const download_link = download_url.data[0].source;
-  console.log(download_link);
+  const a = document.createElement('a');
+  a.href = download_link;
+  a.download = artist + " - " + song + ".gp";
+  document.body.appendChild(a);
+  a.click(); 
+  document.body.removeChild(a);
 };

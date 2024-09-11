@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { tabLink } from './utils.js';
+import { tabLink, downloadLink} from './utils.js';
 import { CSSTransition } from 'react-transition-group';
 
 export const UserSongs = () => {
@@ -142,10 +142,8 @@ export const UserSongs = () => {
                       <h3 className="popup-song-name">{selectedSong.name}</h3>
                       <p className="popup-artist-name">{selectedSong.artists[0].name}</p>
                       <div className="popup-buttons">
-                        <button onClick={() => alert('First button clicked')}>
-                          Button 1
-                        </button>
-                        <button onClick={songExit}>Close</button>
+                        <button onClick={() => downloadLink(selectedSong.name, selectedSong.artists[0].name)}>Download Tabs</button>
+                        <button onClick={() => tabLink(selectedSong.name, selectedSong.artists[0].name)}>View Tabs</button>
                       </div>
                     </div>
                   </div>
