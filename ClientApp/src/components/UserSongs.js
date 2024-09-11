@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { tabLink } from './utils.js';
+import { CSSTransition } from 'react-transition-group';
 
 export const UserSongs = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -18,6 +19,18 @@ export const UserSongs = () => {
 
   const startIndex = (currentPage - 1) * songsPerPage;
   const [currentSongs, setCurrentSongs] = useState(null);
+
+  const [selectedSong, setSelectedSong] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const songClick = (song) => {
+    setSelectedSong(song);
+    setShowPopup(true);
+  }
+  const songExit = () => {
+    setShowPopup(false);
+  }
+
+  const nodeRef = useRef(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -91,7 +104,7 @@ export const UserSongs = () => {
             <ul className="top-songs-list">
               {currentSongs.map((song, index) => (
                 <li key={song.id} className="top-song-item">
-                  <img src={song.album.images[0].url} alt={song.name} className="album-image" onClick={() => tabLink(song.name, song.artists[0].name)} />
+                  <img src={song.album.images[0].url} alt={song.name} className="album-image" onClick={() => songClick(song)} />
                   <span className="artist-rank">{startIndex + index + 1}</span>
                   <span className="song-name">{song.name}</span>
                   <span className="artist-name">{song.artists[0].name}</span>
@@ -107,6 +120,33 @@ export const UserSongs = () => {
               </button>
             </div>
           </div>
+          {showPopup && (
+            <CSSTransition
+              nodeRef={nodeRef}
+              in={showPopup}
+              timeout={300}
+              classNames="popup"
+              unmountOnExit
+            >
+              <div className="song-popup">
+                <div className="popup-content" ref={nodeRef}>
+                  <img
+                    src={selectedSong.album.images[0].url}
+                    alt={selectedSong.name}
+                    className="popup-album-image"
+                  />
+                  <h3 className="popup-song-name">{selectedSong.name}</h3>
+                  <p className="popup-artist-name">{selectedSong.artists[0].name}</p>
+                  <div className="popup-buttons">
+                    <button onClick={() => alert('First button clicked')}>
+                      Download Tabs
+                    </button>
+                    <button onClick={songExit}>View Tabs</button>
+                  </div>
+                </div>
+              </div>
+            </CSSTransition>
+          )}
         </div>
       ) : (
         <div>Loading...</div>

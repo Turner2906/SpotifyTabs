@@ -202,3 +202,103 @@ button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.song-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #93B7BE;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* For popup-overlay */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+/* For popup-content */
+.popup-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.popup-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+.popup-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.popup-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+.popup-content {
+  text-align: center;
+}
+
+.popup-album-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.popup-song-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.popup-artist-name {
+  font-size: 14px;
+  color: #555;
+}
+
+.popup-buttons button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  background-color: #2F394D;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-buttons button:hover {
+  background-color: #0056b3;
+}
