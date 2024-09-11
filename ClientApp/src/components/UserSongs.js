@@ -120,34 +120,39 @@ export const UserSongs = () => {
               </button>
             </div>
           </div>
-          {showPopup && (
-            <CSSTransition
-              nodeRef={nodeRef}
-              in={showPopup}
-              timeout={300}
-              classNames="popup"
-              unmountOnExit
-            >
+          <CSSTransition
+            nodeRef={nodeRef}
+            in={showPopup}
+            timeout={300}
+            classNames="popup"
+            unmountOnExit
+          >
+            <>
               <div className="popup-overlay" onClick={songExit}></div>
-              <div className="song-popup">
-                <div className="popup-content" ref={nodeRef}>
-                  <img
-                    src={selectedSong.album.images[0].url}
-                    alt={selectedSong.name}
-                    className="popup-album-image"
-                  />
-                  <h3 className="popup-song-name">{selectedSong.name}</h3>
-                  <p className="popup-artist-name">{selectedSong.artists[0].name}</p>
-                  <div className="popup-buttons">
-                    <button onClick={() => alert('First button clicked')}>
-                      Download Tabs
-                    </button>
-                    <button onClick={songExit}>View Tabs</button>
+              {showPopup && (
+                <>
+                  <div className="popup-overlay" onClick={songExit}></div>
+                  <div className="song-popup">
+                    <div className="popup-content" ref={nodeRef}>
+                      <img
+                        src={selectedSong.album.images[0].url}
+                        alt={selectedSong.name}
+                        className="popup-album-image"
+                      />
+                      <h3 className="popup-song-name">{selectedSong.name}</h3>
+                      <p className="popup-artist-name">{selectedSong.artists[0].name}</p>
+                      <div className="popup-buttons">
+                        <button onClick={() => alert('First button clicked')}>
+                          Button 1
+                        </button>
+                        <button onClick={songExit}>Close</button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </CSSTransition>
-          )}
+                </>
+              )}
+            </>
+          </CSSTransition>
         </div>
       ) : (
         <div>Loading...</div>
