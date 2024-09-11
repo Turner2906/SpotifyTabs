@@ -128,6 +128,7 @@ export const UserSongs = () => {
               classNames="popup"
               unmountOnExit
             >
+              <div className="popup-overlay" onClick={songExit}></div>
               <div className="song-popup">
                 <div className="popup-content" ref={nodeRef}>
                   <img
