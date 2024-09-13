@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { tabLink, downloadLink} from './utils.js';
-import { CSSTransition } from 'react-transition-group';
+import { SongPopup } from './utils.js';
 
 export const UserSongs = () => {
-  const [userInfo, setUserInfo] = useState(null);
   const [userTopTracks, setUserTopTracks] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [timeRange, setTimeRange] = useState(() => {
@@ -29,7 +27,6 @@ export const UserSongs = () => {
   const songExit = () => {
     setShowPopup(false);
   }
-
   const nodeRef = useRef(null);
 
   useEffect(() => {
@@ -120,37 +117,12 @@ export const UserSongs = () => {
               </button>
             </div>
           </div>
-          <CSSTransition
+          <SongPopup
+            showPopup={showPopup}
+            songExit={songExit}
+            selectedSong={selectedSong}
             nodeRef={nodeRef}
-            in={showPopup}
-            timeout={300}
-            classNames="popup"
-            unmountOnExit
-          >
-            <>
-              <div className="popup-overlay" onClick={songExit}></div>
-              {showPopup && (
-                <>
-                  <div className="popup-overlay" onClick={songExit}></div>
-                  <div className="song-popup">
-                    <div className="popup-content" ref={nodeRef}>
-                      <img
-                        src={selectedSong.album.images[0].url}
-                        alt={selectedSong.name}
-                        className="popup-album-image"
-                      />
-                      <h3 className="popup-song-name">{selectedSong.name}</h3>
-                      <p className="popup-artist-name">{selectedSong.artists[0].name}</p>
-                      <div className="popup-buttons">
-                        <button onClick={() => downloadLink(selectedSong.name, selectedSong.artists[0].name)}>Download Tabs</button>
-                        <button onClick={() => tabLink(selectedSong.name, selectedSong.artists[0].name)}>View Tabs</button>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </>
-          </CSSTransition>
+          />
         </div>
       ) : (
         <div>Loading...</div>

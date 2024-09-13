@@ -1,3 +1,5 @@
+import React from 'react';
+import { CSSTransition } from 'react-transition-group';
 import axios from 'axios';
 
 export const tabLink = async (song, artist) => {
@@ -28,3 +30,43 @@ export const downloadLink = async (song, artist) => {
   a.click(); 
   document.body.removeChild(a);
 };
+
+export const SongPopup = ({ showPopup, songExit, selectedSong, nodeRef}) => {
+  return (
+    <CSSTransition
+      nodeRef={nodeRef}
+      in={showPopup}
+      timeout={300}
+      classNames="popup"
+      unmountOnExit
+    >
+      <>
+        {showPopup && (
+          <>
+            <div className="popup-overlay" onClick={songExit}></div>
+            <div className="song-popup">
+              <button className="close-button" onClick={songExit}>×</button>
+              <div className="popup-content" ref={nodeRef}>
+                <img
+                  src={selectedSong.album.images[0].url}
+                  alt={selectedSong.name}
+                  className="popup-album-image"
+                />
+                <h3 className="popup-song-name">{selectedSong.name}</h3>
+                <p className="popup-artist-name">{selectedSong.artists[0].name}</p>
+                <div className="popup-buttons">
+                  <button onClick={() => downloadLink(selectedSong.name, selectedSong.artists[0].name)}>Download Tabs</button>
+                  <button onClick={() => tabLink(selectedSong.name, selectedSong.artists[0].name)}>View Tabs</button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </>
+    </CSSTransition>
+  );
+};
+
+export default SongPopup;
+
+

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { tabLink } from './utils.js';
+import { SongPopup } from './utils.js';
 
 export const Profile = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -12,6 +12,17 @@ export const Profile = () => {
     return searchParams.get('timeRange') || 'medium_term';
   });
   const navigate = useNavigate();
+
+  const [selectedSong, setSelectedSong] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const songClick = (song) => {
+    setSelectedSong(song);
+    setShowPopup(true);
+  }
+  const songExit = () => {
+    setShowPopup(false);
+  }
+  const nodeRef = useRef(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -79,20 +90,26 @@ export const Profile = () => {
               <span className="see-more" onClick={fullSongs}>See more</span>
             </div>
             <div className="top-artists-container">
-              <h2>Your Top Tracks</h2>
+              <h2>Your Top Songs</h2>
               <ul className="top-artists-list">
-                {userTopTracks.map((track, index) => (
-                  <li key={track.id} className="top-artist-item">
-                    <img src={track.album.images[0].url} alt={track.name} className="album-image" onClick={() => tabLink(track.name, track.artists[0].name)}/>
+                {userTopTracks.map((song, index) => (
+                  <li key={song.id} className="top-artist-item">
+                    <img src={song.album.images[0].url} alt={song.name} className="album-image" onClick={() => songClick(song)}/>
                     <span className="artist-rank">{index + 1}</span>
-                    <span className="song-name">{track.name}</span>
-                    <span className="artist-name">{track.artists[0].name}</span>
+                    <span className="song-name">{song.name}</span>
+                    <span className="artist-name">{song.artists[0].name}</span>
                   </li>
                 ))}
               </ul>
               <span className="see-more" onClick={fullSongs}>See more</span>
             </div>
           </div>
+          <SongPopup
+            showPopup={showPopup}
+            songExit={songExit}
+            selectedSong={selectedSong}
+            nodeRef={nodeRef}
+          />
         </div>
       ) : (
         <p>Loading...</p>
