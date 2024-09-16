@@ -3,6 +3,7 @@ import { Home } from "./components/Home";
 import { Profile} from "./components/Profile";
 import { CallBack } from "./components/CallBack";
 import { UserSongs} from "./components/UserSongs";
+import { UserArtists } from "./components/UserArtists";
 
 const AppRoutes = [
   {
@@ -25,6 +26,10 @@ const AppRoutes = [
   {
     path: '/profile/songs',
     element : <UserSongs />
+  },
+  {
+    path: '/profile/artists',
+    element: <UserArtists />
   }
 
 ];

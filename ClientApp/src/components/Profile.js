@@ -39,7 +39,8 @@ export const Profile = () => {
           setUserTopArtists(JSON.parse(user.data.topArtists).items);
           setUserTopTracks(JSON.parse(user.data.topTracks).items);
         } catch (error) {
-          console.error('Error fetching user information', error);
+          alert("Sign in to view your profile");
+          navigate('/signin');
         }
       }
       else {
@@ -56,10 +57,6 @@ export const Profile = () => {
     const current_time = event.target.value;
     setTimeRange(current_time);
     navigate(`/profile?timeRange=${current_time}`);
-  };
-
-  const fullSongs = () => {
-    navigate(`/profile/songs?timeRange=${timeRange}`);
   };
 
   return (
@@ -83,11 +80,16 @@ export const Profile = () => {
                   <li key={artist.id} className="top-artist-item">
                     <img src={artist.images[0].url} alt={artist.name} className="artist-image" />
                     <span className="artist-rank">{index + 1}</span>
-                    <span className="artist-name">{artist.name}</span>
+                    <span className="song-name">{artist.name}</span>
                   </li>
                 ))}
               </ul>
-              <span className="see-more" onClick={fullSongs}>See more</span>
+              <span
+                className="see-more"
+                onClick={() => {
+                  navigate(`/profile/artists?timeRange=${timeRange}`);
+                }}
+              > See more</span>
             </div>
             <div className="top-artists-container">
               <h2>Your Top Songs</h2>
@@ -101,7 +103,12 @@ export const Profile = () => {
                   </li>
                 ))}
               </ul>
-              <span className="see-more" onClick={fullSongs}>See more</span>
+              <span 
+                className="see-more" 
+                onClick={() => {
+                navigate(`/profile/songs?timeRange=${timeRange}`);
+              }}
+              > See more</span>
             </div>
           </div>
           <SongPopup

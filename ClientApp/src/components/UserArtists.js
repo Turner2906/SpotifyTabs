@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { SongPopup } from './utils.js';
 
-export const UserSongs = () => {
+export const UserArtists = () => {
   const [userTopTracks, setUserTopTracks] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [timeRange, setTimeRange] = useState(() => {
@@ -36,8 +36,8 @@ export const UserSongs = () => {
         try {
           const user = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50`);
           const user_half = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50&offset=50`);
-          const topHalfSongs = JSON.parse(user.data.topTracks).items;
-          const bottomHalfSongs = JSON.parse(user_half.data.topTracks).items;
+          const topHalfSongs = JSON.parse(user.data.topArtists).items;
+          const bottomHalfSongs = JSON.parse(user_half.data.topArtists).items;
           if (topHalfSongs.error) {
             alert("You must be signed in to view your profile");
             navigate('/signin');
@@ -85,6 +85,8 @@ export const UserSongs = () => {
     window.location.href = `/profile/songs?timeRange=${current_time}`;
   };
 
+
+  // TODO: Make the Top songs/artists box not move as we scroll between pages
   return (
     <div>
       {currentSongs ? (
@@ -97,15 +99,14 @@ export const UserSongs = () => {
             </select>
           </div>
           <div className="top-list-container">
-            <h2>Your Top Songs</h2>
+            <h2>Your Top Artists</h2>
             <ul className="top-songs-list">
-              {currentSongs.map((song, index) => {
+              {currentSongs.map((artist, index) => {
                 return (
-                  <li key={song.id} className="top-song-item">
-                    <img src={song.album.images[0].url} alt={song.name} className="album-image" onClick={() => songClick(song)}/>
+                  <li key={artist.id} className="top-song-item">
+                    <img src={artist.images[0].url} alt={artist.name} className="album-image" onClick={() => console.log("lol")} />
                     <span className="artist-rank">{startIndex + index + 1}</span>
-                    <span className="song-name">{song.name}</span>
-                    <span className="artist-name">{song.artists[0].name}</span>
+                    <span className="song-name">{artist.name}</span>
                   </li>
                 );
               })}
@@ -133,4 +134,4 @@ export const UserSongs = () => {
   );
 };
 
-export default UserSongs;
+export default UserArtists;
