@@ -9,7 +9,7 @@ export const tabLink = async (song, artist) => {
   if (song_url.data.text !== "Master of PuppetsMetallica" && (artist !== "Metallica" || song !== "Master of Puppets")) {
     window.location.href = "https://www.songsterr.com" + song_url.data.href;
   } else if (song_url.data.href.length > 0){
-    const backup_url = await axios.get(`https://localhost:44461/api/songsterr/backup_search?query=${artist} ${song}`);
+    const backup_url = await axios.get(`https://localhost:44461/api/songsterr/backup-search?query=${artist} ${song}`);
     // console.log(backup_url.data);
     window.location.href = backup_url.data.href;
   }
@@ -19,7 +19,7 @@ export const tabLink = async (song, artist) => {
 };
 
 export const downloadLink = async (song, artist) => {
-  const id_url = await axios.get(`https://localhost:44461/api/songsterr/song_id?query=${artist} ${song}`);
+  const id_url = await axios.get(`https://localhost:44461/api/songsterr/song-id?query=${artist} ${song}`);
   const song_id = id_url.data[0].songId;
   const download_url = await axios.get(`https://localhost:44461/api/songsterr/download/${song_id}`);
   const download_link = download_url.data[0].source;
@@ -55,8 +55,8 @@ export const SongPopup = ({ showPopup, songExit, selectedSong, nodeRef}) => {
                 <h3 className="popup-song-name">{selectedSong.name}</h3>
                 <p className="popup-artist-name">{selectedSong.artists[0].name}</p>
                 <div className="popup-buttons">
-                  <button onClick={() => downloadLink(selectedSong.name, selectedSong.artists[0].name)}>Download Tabs</button>
-                  <button onClick={() => tabLink(selectedSong.name, selectedSong.artists[0].name)}>View Tabs</button>
+                  <button onClick={() => downloadLink(selectedSong.name, selectedSong.artists[0].name)}>Download Tab</button>
+                  <button onClick={() => tabLink(selectedSong.name, selectedSong.artists[0].name)}>View Tab</button>
                 </div>
               </div>
             </div>

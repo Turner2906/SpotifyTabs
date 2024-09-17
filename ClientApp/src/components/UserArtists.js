@@ -34,8 +34,8 @@ export const UserArtists = () => {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         try {
-          const user = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50`);
-          const user_half = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50&offset=50`);
+          const user = await axios.get(`https://localhost:44461/api/spotify/user-top?accessToken=${accessToken}&timeRange=${timeRange}&limit=50`);
+          const user_half = await axios.get(`https://localhost:44461/api/spotify/user-top?accessToken=${accessToken}&timeRange=${timeRange}&limit=50&offset=50`);
           const topHalfSongs = JSON.parse(user.data.topArtists).items;
           const bottomHalfSongs = JSON.parse(user_half.data.topArtists).items;
           if (topHalfSongs.error) {
@@ -104,7 +104,7 @@ export const UserArtists = () => {
               {currentSongs.map((artist, index) => {
                 return (
                   <li key={artist.id} className="top-song-item">
-                    <img src={artist.images[0].url} alt={artist.name} className="album-image" onClick={() => console.log("lol")} />
+                    <img src={artist.images[0].url} alt={artist.name} className="artist-image" onClick={() => console.log(artist.id)} />
                     <span className="artist-rank">{startIndex + index + 1}</span>
                     <span className="song-name">{artist.name}</span>
                   </li>

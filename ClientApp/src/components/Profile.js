@@ -29,7 +29,7 @@ export const Profile = () => {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         try {
-          const user = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}`);
+          const user = await axios.get(`https://localhost:44461/api/spotify/user-top?accessToken=${accessToken}&timeRange=${timeRange}`);
           const check = JSON.parse(user.data.userInfo);
           if (check.error) {
             alert("You must be signed in to view your profile");
@@ -78,7 +78,13 @@ export const Profile = () => {
               <ul className="top-artists-list">
                 {userTopArtists.map((artist, index) => (
                   <li key={artist.id} className="top-artist-item">
-                    <img src={artist.images[0].url} alt={artist.name} className="artist-image" />
+                    <img 
+                    src={artist.images[0].url} 
+                    alt={artist.name} 
+                    className="artist-image"
+                    onClick={() => {
+                        navigate(`/artist/${artist.id}`);
+                    }}/>
                     <span className="artist-rank">{index + 1}</span>
                     <span className="song-name">{artist.name}</span>
                   </li>

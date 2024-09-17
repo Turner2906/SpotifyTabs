@@ -44,7 +44,7 @@ public class SongsterrController : ControllerBase
         }
     }
 
-    [HttpGet("song_id")]
+    [HttpGet("song-id")]
     public async Task<IActionResult> Song_id(string query)
     {
 
@@ -66,7 +66,7 @@ public class SongsterrController : ControllerBase
         }
     }
 
-    [HttpGet("backup_search")]
+    [HttpGet("backup-search")]
     public async Task<IActionResult> Backup_Search(string query)
     {
         var options = new ChromeOptions();

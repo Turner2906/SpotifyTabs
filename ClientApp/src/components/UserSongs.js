@@ -34,8 +34,8 @@ export const UserSongs = () => {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
         try {
-          const user = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50`);
-          const user_half = await axios.get(`https://localhost:44461/api/spotify/usertop?accessToken=${accessToken}&timeRange=${timeRange}&limit=50&offset=50`);
+          const user = await axios.get(`https://localhost:44461/api/spotify/user-top?accessToken=${accessToken}&timeRange=${timeRange}&limit=50`);
+          const user_half = await axios.get(`https://localhost:44461/api/spotify/user-top?accessToken=${accessToken}&timeRange=${timeRange}&limit=50&offset=50`);
           const topHalfSongs = JSON.parse(user.data.topTracks).items;
           const bottomHalfSongs = JSON.parse(user_half.data.topTracks).items;
           if (topHalfSongs.error) {

@@ -42,7 +42,7 @@ public class SpotifyController : ControllerBase
     }
   }
 
-  [HttpGet("usertop")]
+  [HttpGet("user-top")]
   public async Task<IActionResult> GetUserAll(string accessToken, string? timeRange = "medium_term", string? limit = "10", string? offset = "0")
   {
 
@@ -74,6 +74,23 @@ public class SpotifyController : ControllerBase
       }
 
       return Ok(userAll);
+    }
+  }
+  [HttpGet("artist-top/{artistId}")]
+  public async Task<IActionResult> GetArtistTop(string accessToken, string artistId)
+  {
+    using (var client = new HttpClient())
+    {
+      client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+      var topTracks = client.GetAsync($"https://api.spotify.com/v1/artists/{artistId}/top-tracks");
+
+      var topTracksContent = await topTracks.Result.Content.ReadAsStringAsync();
+
+      if (JObject.Parse(topTracksContent).ToString().Contains("error"))
+      {
+        return BadRequest("One or more requests returned an error.");
+      }
+      return Ok(topTracksContent);
     }
   }
 }
