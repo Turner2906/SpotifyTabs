@@ -32,10 +32,12 @@ public class SongsterrController : ControllerBase
 
             if (songLink != null)
             {
-                var hrefValue = songLink.GetAttributeValue("href", string.Empty);
-                var innerText = songLink.InnerText;
-
-                return Ok(new { href = hrefValue, text = innerText , query = encodedQuery });
+                var hrefVal = songLink.GetAttributeValue("href", string.Empty);
+                var songNameDiv = songLink.SelectSingleNode(".//div[@data-field='name']");
+                var artistDiv = songLink.SelectSingleNode(".//div[@data-field='artist']");
+                var songName = songNameDiv?.InnerText.Trim();
+                var artistName = artistDiv?.InnerText.Trim();
+                return Ok(new { href = hrefVal, artist = artistName, song = songName, query = encodedQuery });
             }
             else
             {
