@@ -53,10 +53,9 @@ export const Profile = () => {
   }, [searchParams, timeRange]);
 
 
-  const timeRangeChange = (event) => {
-    const current_time = event.target.value;
-    setTimeRange(current_time);
-    navigate(`/profile?timeRange=${current_time}`);
+  const timeRangeChange = (time) => {
+    setTimeRange(time);
+    navigate(`/profile?timeRange=${time}`);
   };
 
   return (
@@ -66,11 +65,18 @@ export const Profile = () => {
           <div className="profile-header">
             <img src={userInfo.images[1].url} alt="Profile" />
             <h1 style={{ fontWeight: "bold" }}>{userInfo.display_name}</h1>
-            <select className="time-range" value={timeRange} onChange={timeRangeChange}>
-              <option value="short_term">Short Term</option>
-              <option value="medium_term">Medium Term</option>
-              <option value="long_term">Long Term</option>
-            </select>
+            <div className="dropdown">
+              <button className="btn time-drop dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                {timeRange === 'short_term' && 'Short Term'}
+                {timeRange === 'medium_term' && 'Medium Term'}
+                {timeRange === 'long_term' && 'Long Term'}
+              </button>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a className="dropdown-item" onClick={() => timeRangeChange('short_term')}>Short Term</a></li>
+                <li><a className="dropdown-item" onClick={() => timeRangeChange('medium_term')}>Medium Term</a></li>
+                <li><a className="dropdown-item" onClick={() => timeRangeChange('long_term')}>Long Term</a></li>
+              </ul>
+            </div>
           </div>
           <div className="spotify-list-wrapper">
             <div className="top-artists-container">

@@ -36,7 +36,7 @@ export const tabLink = async (song, artist) => {
 
 export const downloadLink = async (song, artist) => {
   var { song_url, newSong, newArtist } = await findSongUrl(song, artist);
-  newSong = newSong.replace(/ /g, '_');
+  newSong = newSong.toLowerCase().replace(/ /g, '_');
   const id_url = await axios.get(`https://localhost:44461/api/songsterr/song-id?query=${newArtist} ${newSong}`);
   const song_id = id_url.data[0].songId;
 

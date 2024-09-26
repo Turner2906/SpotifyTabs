@@ -24,16 +24,16 @@ export class NavMenu extends Component {
   render() {
     return (
       <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
+        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white box-shadow mb-3 top-bar" container light>
           <NavbarBrand tag={Link} to="/">spotifyTabApp</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/signin">Sign In</NavLink>
+                <NavLink tag={Link} className="text-light" to="/signin">Sign In</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/profile">Profile</NavLink>
+                <NavLink tag={Link} className="text-light" to="/profile">Profile</NavLink>
               </NavItem>
             </ul>
           </Collapse>

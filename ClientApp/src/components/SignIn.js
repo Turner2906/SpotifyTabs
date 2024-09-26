@@ -14,7 +14,7 @@ export const SignIn = () => {
   return (
     <div>
       <h1 id="tabelLabel">Sign into your Spotify!</h1>
-      <button onClick={handleLogin}>Sign In with Spotify</button>
+      <button type="button" className= "btn btn-primary" onClick={handleLogin}>Sign In with Spotify</button>
     </div>
   );
 };

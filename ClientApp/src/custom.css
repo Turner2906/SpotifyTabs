@@ -1,3 +1,7 @@
+* {
+  color: #ffffff
+}
+
 a {
   color: #0366d6;
 }
@@ -6,17 +10,30 @@ code {
   color: #E01A76;
 }
 
+body {
+  background-color: #02040F;
+  /* min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+
+.top-bar {
+  background-color: #4F6D7A;
+}
+
 /* * Profile */
 
 .btn-primary {
-  color: #fff;
+  color: #EAFDF8;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
 .profile-header {
-  margin-bottom: 20px;
+  margin-bottom: 35px;
   display: flex;
+  position: relative;
 }
 
 .profile-header img {
@@ -26,7 +43,7 @@ code {
 }
 
 .profile-header h1 {
-  color: #333;
+  color: #EAFDF8;
   margin-left: 20px;
   margin-top: 60px;
 }
@@ -36,6 +53,34 @@ code {
   width: 150px;
   height: 30px;
   color: #333;
+}
+
+.dropdown {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.btn.time-drop {
+  background-color: #21A179;
+  cursor: pointer;
+  border: none;
+}
+
+.btn.time-drop:hover {
+  background-color: #3ad7a6;
+  border: none;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #21A179;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-menu.show {
+  background-color: #21A179;
 }
 
 /* * Top Artists list */
