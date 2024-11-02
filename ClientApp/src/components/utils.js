@@ -17,6 +17,10 @@ const findSongUrl = async (song, artist) => {
   return {song_url, newSong, newArtist};
 };
 
+// TODO: Find a way to do backup search WITHOUT selenium (takes too long and too cheesy)
+// * (Possible fix) Change it so we ONLY search the artist and look at all their songs and see if their song matches the one we're looking for
+// * tho this is under the assumption that the artist name is a language that is similiar typing of english
+
 export const tabLink = async (song, artist) => {
   const { song_url, newSong, newArtist } = await findSongUrl(song, artist);
 
@@ -75,7 +79,7 @@ export const SongPopup = ({ showPopup, songExit, selectedSong, nodeRef}) => {
           <>
             <div className="popup-overlay" onClick={songExit}></div>
             <div className="song-popup">
-              <button className="close-button" onClick={songExit}>×</button>
+              <button className="btn close-button" onClick={songExit}>×</button>
               <div className="popup-content" ref={nodeRef}>
                 <img
                   src={selectedSong.album.images[0].url}

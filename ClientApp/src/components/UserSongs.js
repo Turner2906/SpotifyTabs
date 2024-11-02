@@ -77,12 +77,11 @@ export const UserSongs = () => {
     }
   };
 
-  const timeRangeChange = (event) => {
-    const current_time = event.target.value;
+  const timeRangeChange = (time) => {
     setCurrentPage(1);
     setCurrentSongs(userTopTracks.slice(0, 10));
-    setTimeRange(current_time);
-    window.location.href = `/profile/songs?timeRange=${current_time}`;
+    setTimeRange(time);
+    window.location.href = `/profile/songs?timeRange=${time}`;
   };
 
   return (
@@ -90,11 +89,18 @@ export const UserSongs = () => {
       {currentSongs ? (
         <div>
           <div className="profile-header">
-            <select className="time-range" value={timeRange} onChange={timeRangeChange}>
-              <option value="short_term">Short Term</option>
-              <option value="medium_term">Medium Term</option>
-              <option value="long_term">Long Term</option>
-            </select>
+            <div className="dropdown">
+              <button className="btn time-drop dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                {timeRange === 'short_term' && 'Short Term'}
+                {timeRange === 'medium_term' && 'Medium Term'}
+                {timeRange === 'long_term' && 'Long Term'}
+              </button>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a className="dropdown-item" onClick={() => timeRangeChange('short_term')}>Short Term</a></li>
+                <li><a className="dropdown-item" onClick={() => timeRangeChange('medium_term')}>Medium Term</a></li>
+                <li><a className="dropdown-item" onClick={() => timeRangeChange('long_term')}>Long Term</a></li>
+              </ul>
+            </div>
           </div>
           <div className="top-list-container">
             <h2>Your Top Songs</h2>
@@ -111,10 +117,10 @@ export const UserSongs = () => {
               })}
             </ul>
             <div className="pagination-buttons">
-              <button onClick={handlePrevious} disabled={currentPage === 1}>
+              <button className="btn btn-info" onClick={handlePrevious} disabled={currentPage === 1}>
                 Previous
               </button>
-              <button onClick={handleNext} disabled={currentPage === totalPages}>
+              <button className="btn btn-info" onClick={handleNext} disabled={currentPage === totalPages}>
                 Next
               </button>
             </div>

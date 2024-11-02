@@ -237,17 +237,16 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+  border: none;
 }
 
-button {
-  padding: 5px 10px;
+.btn {
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-button:disabled {
-  cursor: not-allowed;
+.btn:disabled {
   opacity: 0.5;
 }
 
@@ -309,10 +308,12 @@ button:disabled {
 .popup-song-name {
   font-size: 18px;
   font-weight: bold;
+  color: black;
 }
 
 .popup-artist-name {
   font-size: 14px;
+  font-weight: 550;
   color: #555;
 }
 
