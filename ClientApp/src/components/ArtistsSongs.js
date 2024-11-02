@@ -52,7 +52,7 @@ export const ArtistsSongs = () => {
           <div className="profile-header">
           </div>
           <div className="top-list-container">
-            <h2>{artistTopTracks[0].artists[0].name}'s Top Songs</h2>
+            <h2>Top Songs</h2>
             <ul className="top-songs-list">
               {artistTopTracks.map((song, index) => {
                 return (

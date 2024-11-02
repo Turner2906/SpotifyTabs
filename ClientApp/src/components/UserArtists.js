@@ -104,7 +104,9 @@ export const UserArtists = () => {
               {currentSongs.map((artist, index) => {
                 return (
                   <li key={artist.id} className="top-song-item">
-                    <img src={artist.images[0].url} alt={artist.name} className="artist-image" onClick={() => console.log(artist.id)} />
+                    <img src={artist.images[0].url} alt={artist.name} className="artist-image" onClick={() => {
+                      navigate(`/artist/${artist.id}`);
+                    }} />
                     <span className="artist-rank">{startIndex + index + 1}</span>
                     <span className="song-name">{artist.name}</span>
                   </li>

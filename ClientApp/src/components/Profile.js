@@ -38,6 +38,7 @@ export const Profile = () => {
           setUserInfo(JSON.parse(user.data.userInfo));
           setUserTopArtists(JSON.parse(user.data.topArtists).items);
           setUserTopTracks(JSON.parse(user.data.topTracks).items);
+          localStorage.setItem('userImage', JSON.parse(user.data.userInfo).images[1].url);
         } catch (error) {
           alert("Sign in to view your profile");
           navigate('/signin');
@@ -63,7 +64,7 @@ export const Profile = () => {
       {userInfo ? (
         <div>
           <div className="profile-header">
-            <img src={userInfo.images[1].url} alt="Profile" />
+            <img src={userInfo.images[0].url} alt="Profile" />
             <h1 style={{ fontWeight: "bold" }}>{userInfo.display_name}</h1>
             <div className="dropdown">
               <button className="btn time-drop dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">

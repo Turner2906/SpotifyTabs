@@ -1,8 +1,26 @@
-﻿a.navbar-brand {
+﻿.navbar-brand,
+.navbar-nav .nav-link {
   white-space: normal;
   text-align: center;
   word-break: break-all;
   color:#EAFDF8;
+}
+
+.navbar-brand:hover, 
+.navbar-nav:hover .nav-link:hover{
+  color: #3ad7a6;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.profile-image:hover {
+  transform: scale(1.1);
 }
 
 html {

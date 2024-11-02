@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export const SignIn = () => {
 
@@ -10,6 +10,10 @@ export const SignIn = () => {
     params.append("scope", "user-read-private user-read-email user-top-read");
     window.location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;
   };
+
+  // useEffect(() => {
+  //   handleLogin();
+  // }, []);
 
   return (
     <div>
