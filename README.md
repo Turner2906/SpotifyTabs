@@ -14,7 +14,7 @@ View your personalized spotify profile by securely logging in through the use of
 ![Spotify Profile](./Images/spotifyProfile.png)
 
 
-You can also view a more comprehensive list of these top items. By clicking view more, you can expand to list to cover your top 100 items.
+You can also view a more comprehensive list of these top items. By clicking see more, you can expand the list to cover your top 100 items.
 
 ## Artist Profile
 
