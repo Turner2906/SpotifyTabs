@@ -11,7 +11,7 @@ A web application that weaves your Spotify and guitar learning experience by all
 
 View your personalized spotify profile by securely logging in through the use of Spotify's OAuth. Once logged in, you will be presented with a list of your top 10 songs and artists within the last 6 months. You're also able to change the time range of the artists you like to either short term (last 4 weeks), medium term (last 6 months), and long term (last 12 months). 
 
-![Spotify Profile](./images/spotifyProfile.png)
+![Spotify Profile](./Images/spotifyProfile.png)
 
 
 You can also view a more comprehensive list of these top items. By clicking view more, you can expand to list to cover your top 100 items.
@@ -20,13 +20,13 @@ You can also view a more comprehensive list of these top items. By clicking view
 
 If you want to view an artist's top songs, you can click on their icon in the top artists list to view a list of their top 10 songs.
 
-![Artist Top 10](./images/artistProfile.png)
+![Artist Top 10](./Images/artistProfile.png)
 
 ## View Tabs
 
 When clicking on a song, you are given the option to either view the song directly on the Songsterr website or a direct download link of a .gp3 file containing the song, allowing users to personally edit and fine tune tabs of their favorite songs if they so wish. Of course, the limit to the amount of songs that have the correct corresponding tabs comes down to Songsterr itself. Some songs might return incorrect tabs or none at all, either due to the lack of tabs of the song or the song being named differently on the songsterr website. I'm currently working on a way to circumvent these problems, and make it clear to users as to what songs have available and correct guitar tabs or not.
 
-![Save Tabs](./images/saveSong.png)
+![Save Tabs](./Images/saveSong.png)
 
 ## Possible Future Features
 ### Checklist
