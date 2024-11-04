@@ -20,7 +20,7 @@ You can also view a more comprehensive list of these top items. By clicking view
 
 If you want to view an artist's top songs, you can click on their icon in the top artists list to view a list of their top 10 songs.
 
-![Artist Top 10](./Images/artistProfile.png)
+![Artist Top 10](./Images/ArtistTopSongs.png)
 
 ## View Tabs
 
