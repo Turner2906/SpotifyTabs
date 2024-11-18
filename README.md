@@ -26,7 +26,9 @@ If you want to view an artist's top songs, you can click on their icon in the to
 
 When clicking on a song, you are given the option to either view the song directly on the Songsterr website or a direct download link of a .gp3 file containing the song, allowing users to personally edit and fine tune tabs of their favorite songs if they so wish. Of course, the limit to the amount of songs that have the correct corresponding tabs comes down to Songsterr itself. Some songs might return incorrect tabs or none at all, either due to the lack of tabs of the song or the song being named differently on the songsterr website. I'm currently working on a way to circumvent these problems, and make it clear to users as to what songs have available and correct guitar tabs or not.
 
-![Save Tabs](./Images/saveSong.png)
+![Save Tabs](./Images/topSongs.png)
+
+![Save Tabs](./Images/songsterrSongs.png)
 
 ## Possible Future Features
 ### Checklist
