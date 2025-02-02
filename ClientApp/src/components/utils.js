@@ -12,8 +12,9 @@ const findSongUrl = async (song, artist) => {
     const parse_song = song.includes('-') ? song.split('-')[0].trim() : song;
     song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${parse_song}`);
   }
-  var newSong = song_url.data.song;
-  var newArtist = song_url.data.artist;
+  const newSong = song_url.data.song;
+  const newArtist = song_url.data.artist;
+  const id_url = await axios.get(`https://localhost:44461/api/songsterr/song-id?query=${newArtist} ${newSong}`);
   return {song_url, newSong, newArtist};
 };
 

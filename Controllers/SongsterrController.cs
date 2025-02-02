@@ -8,6 +8,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
+namespace spotifyTabApp.Controllers;
+
 [Route("api/songsterr")]
 [ApiController]
 public class SongsterrController : ControllerBase
@@ -107,5 +109,17 @@ public class SongsterrController : ControllerBase
                 return NotFound("Could not find any songs matching your search.");
             }
         }
+    }
+
+    [HttpPost("song")]
+    public async Task<IActionResult> Song([FromBody] JObject body)
+    {
+        var songId = body["songId"].Value<int>();
+        var songName = body["songName"].Value<string>();
+        var artistName = body["artistName"].Value<string>();
+        var downloadLink = body["downloadLink"].Value<string>();
+        var songLink = body["songLink"].Value<string>();
+
+        return Ok(new { songId, songName, artistName, downloadLink, songLink });
     }
 }
