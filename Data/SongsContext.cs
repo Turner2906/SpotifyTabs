@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using spotifyTabApp.Models;
 
 namespace spotifyTabApp.Data;
 

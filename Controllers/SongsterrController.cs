@@ -3,10 +3,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using spotifyTabApp.Models;
+using spotifyTabApp.Repository;
 
 namespace spotifyTabApp.Controllers;
 
@@ -14,11 +15,11 @@ namespace spotifyTabApp.Controllers;
 [ApiController]
 public class SongsterrController : ControllerBase
 {       
-    private readonly IConfiguration _configuration;
+    private readonly ISongRepository _songRepository = null;
 
-    public SongsterrController(IConfiguration configuration)
+    public SongsterrController(ISongRepository songRepository)
     {
-        _configuration = configuration;
+        _songRepository = songRepository;
     }
 
     [HttpGet("search")]
@@ -111,15 +112,10 @@ public class SongsterrController : ControllerBase
         }
     }
 
-    [HttpPost("song")]
-    public async Task<IActionResult> Song([FromBody] JObject body)
+    [HttpPost("songs")]
+    public async Task<IActionResult> AddSong(SongModel songModel)
     {
-        var songId = body["songId"].Value<int>();
-        var songName = body["songName"].Value<string>();
-        var artistName = body["artistName"].Value<string>();
-        var downloadLink = body["downloadLink"].Value<string>();
-        var songLink = body["songLink"].Value<string>();
-
-        return Ok(new { songId, songName, artistName, downloadLink, songLink });
+        Guid songId = await _songRepository.AddSong(songModel);
+        return Ok(songId);
     }
 }
