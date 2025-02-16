@@ -1,6 +1,6 @@
 namespace spotifyTabApp.Models;
 
-public class SongModel
+public class Song
 {
     public Guid Id { get; set; }
 

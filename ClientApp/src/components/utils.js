@@ -4,6 +4,11 @@ import axios from 'axios';
 
 
 const findSongUrl = async (song, artist) => {
+  var song_db = await axios.get(`https://localhost:44461/api/songsterr/songs?title=${song}&artist=${artist}`);
+  if (song_db !== null) {
+    var song_data = song_db.data;
+    return { song_url: song_data.SongLink, newSong: song, newArtist: artist };
+  }
   var song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${song}`);
   
   if (song_url.data.artist !== artist) {
@@ -12,10 +17,14 @@ const findSongUrl = async (song, artist) => {
     const parse_song = song.includes('-') ? song.split('-')[0].trim() : song;
     song_url = await axios.get(`https://localhost:44461/api/songsterr/search?query=${artist} ${parse_song}`);
   }
-  const newSong = song_url.data.song;
-  const newArtist = song_url.data.artist;
-  const id_url = await axios.get(`https://localhost:44461/api/songsterr/song-id?query=${newArtist} ${newSong}`);
-  return {song_url, newSong, newArtist};
+
+  // Store the song and artist name as shown on Spotify as opposed to the one on Songsterr for consistency
+  const id_url = await axios.get(`https://localhost:44461/api/songsterr/song-id?query=${song_url.data.artist} ${song_url.data.song}`);
+  const metadata = await axios.get(`https://localhost:44461/api/songsterr/download/${song_id}`);
+  const download_link = metadata.data[0].source;
+
+
+  return { song_url, id_url, download_link };
 };
 
 // TODO: Find a way to do backup search WITHOUT selenium (takes too long and too cheesy)
@@ -23,7 +32,7 @@ const findSongUrl = async (song, artist) => {
 // * tho this is under the assumption that the artist name is a language that is similiar typing of english
 
 export const tabLink = async (song, artist) => {
-  const { song_url, newSong, newArtist } = await findSongUrl(song, artist);
+  const { song_url, id_url, download_link } = await findSongUrl(song, artist);
 
   // * If search doesn't go through properly, it defaults to the number 1 song on the site
   // * in this case, Master of Puppets by Metallica

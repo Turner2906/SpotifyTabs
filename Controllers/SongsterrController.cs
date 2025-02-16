@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using spotifyTabApp.Interfaces;
 using spotifyTabApp.Models;
 using spotifyTabApp.Repository;
 
@@ -113,9 +114,16 @@ public class SongsterrController : ControllerBase
     }
 
     [HttpPost("songs")]
-    public async Task<IActionResult> AddSong(SongModel songModel)
+    public async Task<IActionResult> AddSong(Song songModel)
     {
-        Guid songId = await _songRepository.AddSong(songModel);
-        return Ok(songId);
+        var song_data = await _songRepository.AddSong(songModel);
+        return Ok(song_data);
+    }
+
+    [HttpGet("songs")]
+    public async Task<IActionResult> GetSong(string title, string artist)
+    {
+        var song = await _songRepository.GetSong(title, artist);
+        return Ok(song);
     }
 }

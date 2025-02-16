@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using spotifyTabApp.Data;
 using spotifyTabApp.Models;
+using spotifyTabApp.Interfaces;
+using spotifyTabApp.Helpers;
 using HtmlAgilityPack;
 
 namespace spotifyTabApp.Repository;
@@ -17,23 +19,15 @@ public class SongRepository : ISongRepository
         _config = config;
     }
 
-    public async Task<Guid> AddSong(SongModel model)
+    public async Task<Song> AddSong(Song songModel)
     {
-        var song = new Songs()
-        {
-            ArtistName = model.ArtistName,
-            SongName = model.SongName,
-            SongLink = model.SongLink,
-            DownloadLink = model.DownloadLink
-        };
-
-        await _context.Songs.AddAsync(song);
+        await _context.Songs.AddAsync(songModel);
         await _context.SaveChangesAsync();
 
-        return song.Id;
+        return songModel;
     }
-    public async Task<SongModel> GetSong(string title, string artist)
+    public async Task<Song?> GetSong(string title, string artist)
     {
-        return null;
+        return await _context.Songs.FirstOrDefaultAsync(x => x.SongName == title && x.ArtistName == artist);
     }
 }

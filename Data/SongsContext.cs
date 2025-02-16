@@ -11,7 +11,7 @@ public class SongsContext : DbContext
 
     }
 
-    public DbSet<Songs> Songs { get; set; }
+    public DbSet<Song> Songs { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
